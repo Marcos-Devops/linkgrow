@@ -6,6 +6,9 @@ import { useAuth } from '../contexts/AuthContext';
 import DashboardLayout from '../layouts/DashboardLayout';
 import AuthLayout from '../layouts/AuthLayout';
 
+// Landing Page
+import LandingPage from '../pages/Landing/LandingPage';
+
 // Páginas de autenticação
 import Login from '../pages/Auth/Login';
 import Register from '../pages/Auth/Register';
@@ -41,9 +44,12 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
+        {/* Landing Page - Página inicial */}
+        <Route path="/" element={<LandingPage />} />
+        
         {/* Rotas de autenticação */}
-        <Route path="/" element={<AuthLayout />}>
-          <Route index element={<Navigate to="/login" />} />
+        <Route path="/auth" element={<AuthLayout />}>
+          <Route index element={<Navigate to="/auth/login" />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
@@ -79,7 +85,7 @@ const AppRoutes = () => {
         </Route>
 
         {/* Rota de fallback */}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );
