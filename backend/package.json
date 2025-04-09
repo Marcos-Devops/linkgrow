@@ -10,18 +10,31 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "axios": "^1.6.5",
     "bcryptjs": "^2.4.3",
+    "bull": "^4.12.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-validator": "^7.0.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "natural": "^6.10.4",
+    "node-nlp": "^4.27.0",
+    "openai": "^4.28.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
-    "passport-linkedin-oauth2": "^2.0.0"
+    "passport-linkedin-oauth2": "^2.0.0",
+    "pdf-parse": "^1.1.1",
+    "redis": "^4.6.13",
+    "socket.io": "^4.7.4",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "jest": "^29.7.0",
