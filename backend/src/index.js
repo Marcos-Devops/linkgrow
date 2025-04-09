@@ -1,54 +1,36 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-const passport = require('passport');
-const routes = require('./routes');
-const { connectDB } = require('./utils/database');
+// Importar o aplicativo configurado em app.js
+const app = require('./app');
+const http = require('http');
 
-// Inicializa o app Express
-const app = express();
-const PORT = process.env.PORT || 5000;
+// Obter a porta do ambiente ou usar a porta padrão
+const port = process.env.PORT || 5000;
+app.set('port', port);
 
-// Middlewares
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(morgan('dev'));
-app.use(passport.initialize());
+// Criar o servidor HTTP
+const server = http.createServer(app);
 
-// Configuração do Passport
-require('./middleware/passport');
-
-// Rotas
-app.use('/api', routes);
-
-// Rota de saúde
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok', message: 'API está funcionando corretamente!' });
+// Iniciar o servidor
+server.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
+  console.log(`Documentação da API disponível em http://localhost:${port}/api-docs`);
 });
 
-// Tratamento de erros
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({
-    status: 'error',
-    message: err.message || 'Erro interno do servidor'
+// Tratamento de erros não capturados
+process.on('uncaughtException', (err) => {
+  console.error('Erro não capturado:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.error('Promessa rejeitada não tratada:', err);
+  process.exit(1);
+});
+
+// Tratamento de encerramento gracioso
+process.on('SIGTERM', () => {
+  console.log('Recebido SIGTERM. Encerrando o servidor...');
+  server.close(() => {
+    console.log('Servidor encerrado');
+    process.exit(0);
   });
 });
-
-// Inicia o servidor
-const startServer = async () => {
-  try {
-    // Conecta ao banco de dados (descomente quando configurar o MongoDB)
-    // await connectDB();
-    app.listen(PORT, () => {
-      console.log(`Servidor rodando na porta ${PORT}`);
-    });
-  } catch (error) {
-    console.error('Falha ao iniciar o servidor:', error);
-    process.exit(1);
-  }
-};
-
-startServer();
